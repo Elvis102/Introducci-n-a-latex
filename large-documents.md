@@ -25,22 +25,21 @@ This is an exposition of LaTeX features that make the writing process easier.
 ## File management
 It is easier to keep organised if you break the document up into smaller, manageable files.
 
-### Create your own package or class
-You should move most of your preamble to a separate file.
-This will make your main file less cluttered
-and make it easier to reuse the preamble in other projects.
-The separate file can be a `.sty` file (package) or a `.cls` file (class).
-Keep this separate file as organised as possible;
-it will save you a lot of headache in the long run.
-
-In the `.sty` or `.cls` file,
-you need to write `\ProvidesPackage{name}` or `\ProvidesClass{name}`,
-respectively, to specify the name of the package or class.
-The name must be the same as the file name.
-You should also end the file with `\endinput`.
-In the `.tex` file,
-you import the package or class with `\usepackage{name}` or `\documentclass{name}`,
-respectively.
+### Crea tu propio paquete o clase
+Debe mover la mayor parte de su preámbulo a un archivo separado.
+Esto hará que su archivo principal esté menos desordenado
+y facilitar la reutilización del preámbulo en otros proyectos.
+El archivo separado puede ser un archivo `.sty` (paquete) o un archivo `.cls` (clase).
+Mantenga este archivo separado lo más organizado posible;
+te ahorrará muchos dolores de cabeza a largo plazo.
+En el archvo`.sty` or `.cls`,
+necesita escribir `\ProvidesPackage{nombre}` o `\ProvidesClass{nombre}`,
+respectivamente, para especificar el nombre del paquete o clase.
+El nombre debe ser el mismo que el nombre del archivo.
+También debe terminar el archivo con `\endinput`.
+En el archivo `.tex`,
+importas el paquete o la clase con `\usepackage{name}` o `\documentclass{name}`,
+respectivamente.
 If you create a `.cls` file,
 then you probably want to use `\LoadClass{class}`
 to inherit properties from an existing class.
@@ -57,86 +56,83 @@ In a `.sty` or `.cls` file,
 you are free to use `@` without any restrictions.
 
 ### Include and input
-The `\include` command is used to include text that logically starts on a new page,
-such as a chapter.
-Say you have a file `filename.tex` with no preamble and no `\begin{document}`.
-Then `\include{filename}` is equivalent to copying the contents of `filename.tex`
-directly into the main file where `\include` is written,
-after a `\clearpage`.
-Note that `\include{filename.tex}` does not work;
-you cannot use the file extension.
-
-The `\include` command should be used in conjunction with `\includeonly`.
-In the preamble,
-you enter a list of files in `\includeonly`.
-As the name suggests,
-only these files will be included when you compile.
-If you have compiled all the files previously,
-then `\includeonly` will ensure that you can still use cross references
-to files that are not currently included.
-It will also keep track of the page numbers,
-and section and environment counters.
-The moral is that you should never comment out `\include`,
-but rather files from the list in `\includeonly`.
-
-The `\input` command is similar to `\include`,
-but works on a lower level.
-It does not automatically start a new page.
-Unlike `\include`,
-it can be nested;
-you can use `\input` or `\include` on a file that contains another `\input` command.
-You would normally use `\input` for smaller sections in a large chapter,
-or for instance to import a long table or `tikz` code.
+El comando `\include` se usa para incluir texto que lógicamente comienza en una nueva página,
+como un capítulo.
+Digamos que tiene un archivo `filename.tex` sin preámbulo y sin `\begin{document}`.
+Entonces `\include{filename}` es equivalente a copiar el contenido de `filename.tex`
+directamente en el archivo principal donde está escrito `\include`,
+después de `\clearpage`.
+Tenga en cuenta que `\include{filename.tex}` no funciona;
+no puede utilizar la extensión de archivo.
+El comando `\include` debe usarse junto con `\includeonly`.
+En el preámbulo,
+ingresas una lista de archivos en `\includeonly`.
+Como el nombre sugiere,
+solo estos archivos se incluirán cuando compile.
+Si ha compilado todos los archivos anteriormente,
+entonces `\includeonly` se asegurará de que aún pueda usar referencias cruzadas
+a archivos que no están incluidos actualmente.
+También hará un seguimiento de los números de página,
+y contadores de sección y ambiente.
+La moraleja es que nunca debes comentar `\include`,
+sino archivos de la lista en `\includeonly`.
+El comando `\input` es similar a `\include`,
+pero funciona en un nivel inferior.
+No inicia automáticamente una nueva página.
+A diferencia de `\include`,
+se puede anidar;
+puede usar `\input` o `\include` en un archivo que contiene otro comando `\input`.
+Normalmente usaría `\input` para secciones más pequeñas en un capítulo grande,
+o por ejemplo para importar una tabla larga o código `tikz`.
 
 ### Standalone
-Some times you want code that can be compiled on its own,
-but that can also be included as part of a larger document.
-For instance,
-when creating a figure with `tikz`,
-you typically need to compile the drawing several times.
-To save time,
-you do not want to recompile the rest of the document each time.
-It is also easier to reuse the figure if it is contained in a separate file.
-In situations like this,
-it is helpful to use `standalone`,
-which is both a class and package.
+Algunas veces desea un código que se pueda compilar por sí solo,
+pero eso también se puede incluir como parte de un documento más grande.
+Por ejemplo,
+al crear una figura con `tikz`,
+normalmente necesita compilar el dibujo varias veces.
+Para ahorrar tiempo,
+no desea volver a compilar el resto del documento cada vez.
+También es más fácil reutilizar la figura si está contenida en un archivo separado.
+En situaciones como esta,
+es útil usar `independiente`,
+que es tanto una clase como un paquete.
 
-If you have the `standalone` package in your main file,
-then you can include files with the `standalone` class using `\include` or `\input`.
-The preamble in the `standalone` file is then ignored,
-so the preamble in the main file must contain the necessary packages and custom macros
-to run the code in the `standalone` file.
-Also,
-the packages used in the `standalone` file
-must be imported **after** the `standalone` package in the main file.
-Therefore,
-`standalone` should be the first package you import in the main file.
+Si tiene el paquete `independiente` en su archivo principal,
+luego puede incluir archivos con la clase `independiente` usando `\include` o `\input`.
+El preámbulo en el archivo `independiente` se ignora,
+por lo que el preámbulo en el archivo principal debe contener los paquetes necesarios y las macros personalizadas
+para ejecutar el código en el archivo `independiente`.
+También,
+los paquetes utilizados en el archivo `independiente`
+debe importarse **después** del paquete `independiente` en el archivo principal.
+Por lo tanto,
+`independiente` debe ser el primer paquete que importe en el archivo principal.
 
-When using the document class `standalone` for a single figure,
-it automatically crops the page to the content.
-If you do not wish to recompile the figure every time you compile the main document, 
-then you can include the compiled `.pdf` with `\includegraphics`
-instead of the `.tex` file with `\input`.
-
+Al usar la clase de documento `independiente` para una sola figura,
+automáticamente recorta la página al contenido.
+Si no desea volver a compilar la figura cada vez que compila el documento principal,
+entonces puedes incluir el `.pdf` compilado con `\includegraphics`
+en lugar del archivo `.tex` con `\input`.
 ### Graphicspath
-The `graphicx` package provides the command `\graphicspath`.
-The syntax is as follows:
-```latex
-\graphicspath{{subdir1/}{subdir2/}{subdir3/}...{subdirn/}}
+El paquete `graphicx` proporciona el comando `\graphicspath`.
+La sintaxis es la siguiente:
+```látex
+\graphicspath{{subdirección1/}{subdirección2/}{subdirección3/}{{subdirección/}}
 ```
-You enter a list of subdirectories
-where LaTeX should look for images to be included in the document.
-Instead of typing
-```latex
-\includegraphics{subdir1/figure}
+Introduces una lista de subdirectorios
+donde LaTeX debe buscar las imágenes que se incluirán en el documento.
+en lugar de escribir
+```látex
+\includegraphics{subdir1/figura}
 ```
-You need only type
-```latex
-\includegraphics{figure}
+Solo necesitas escribir
+```látex
+\includegraphics{figura}
 ```
-There is one drawback:
-The search through the list of folders can be slow if there are many directories.
-This is a non-issue if you only keep one folder for images.
+Hay un inconveniente:
+La búsqueda en la lista de carpetas puede ser lenta si hay muchos directorios.
+Esto no es un problema si solo mantiene una carpeta para imágenes.
 
 ## Draft and final options
 Reflecting the various stages of writing,
